@@ -22,10 +22,15 @@
         android:text="Toggle automatic water"
         app:layout_constraintTop_toBottomOf="@id/text_home_toggle_automatic_water" />
 
+    <TextView
+        android:id="@+id/text_home_water_now"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/btn_home_toggle_automatic_water" />
     <Button
         android:id="@+id/btn_home_water_now"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Water now"
-        app:layout_constraintTop_toBottomOf="@id/btn_home_toggle_automatic_water"/>
+        app:layout_constraintTop_toBottomOf="@id/text_home_water_now"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

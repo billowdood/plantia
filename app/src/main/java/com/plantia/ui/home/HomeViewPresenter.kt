@@ -5,3 +5,9 @@ fun automaticWaterText(isAutomaticWater: Boolean): String {
 
     return "Automatic water is $statusText"
 }
+
+fun waterNowText(waterNow: Boolean) : String {
+    val statusText = if (waterNow) "YES" else "NO"
+
+    return "Water now? $statusText"
+}
