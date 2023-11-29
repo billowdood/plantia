@@ -10,31 +10,19 @@ import com.plantia.PlantRepository
 data class DashboardUiState(
     val plantList: MutableList<Plant> = mutableListOf<Plant>()
 )
-/*class DashboardViewModel(
-    private val plantRepository: PlantRepository
-) : ViewModel() {
-    val plantListLive: MutableLiveData<DashboardUiState> = MutableLiveData()
 
-    fun fetchPlants(): CollectionReference {
-        return plantRepository.fetchPlants()
-    }
-
-    private fun addPlant(plant: Plant) {
-        plantListLive.value?.plantList?.add(plant)
-
-        Log.d("PlantIA", "Debug message")
-    }
-}*/
 class DashboardViewModel: ViewModel() {
-    val plantListLive: MutableLiveData<DashboardUiState> = MutableLiveData()
+    val uiState: DashboardUiState = DashboardUiState()
     private val plantRepository: PlantRepository = PlantRepository()
 
     fun addPlant(plant: Plant) {
-        plantListLive.value?.plantList?.add(plant)
-
-        Log.d("PlantIA", "Plant added")
+        uiState.plantList.add(plant)
     }
     fun fetchPlants(): CollectionReference {
         return plantRepository.fetchPlants()
+    }
+
+    fun plants(): MutableList<Plant> {
+        return  uiState.plantList
     }
 }

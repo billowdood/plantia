@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.RecyclerView
 import com.plantia.Plant
 import com.plantia.PlantRepository
+import com.plantia.R
 import com.plantia.databinding.FragmentDashboardBinding
 
 class DashboardFragment: Fragment() {
@@ -37,6 +39,11 @@ class DashboardFragment: Fragment() {
 
                     viewModel.addPlant(plant)
                 }
+
+                val plantAdapter = PlantItemAdapter(viewModel.plants())
+                val recyclerView: RecyclerView = binding.plantRecyclerView
+
+                recyclerView.adapter = plantAdapter
             }
             .addOnFailureListener { exception ->
                 Log.w("PlantIA", "Error getting documents.", exception)

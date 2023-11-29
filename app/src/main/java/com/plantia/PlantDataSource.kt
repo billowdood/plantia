@@ -10,9 +10,9 @@ data class Plant (
     val ambMax: Int = 0,
     val ambMin: Int = 0,
     val nombrePlanta: String = "",
-    val tempMax: String = "",
+    val tempMax: Int = 0,
     val tempMin: Int = 0,
-    val tierraMax: String = "",
+    val tierraMax: Int = 0,
     val tierraMin: Int = 0
 )
 class PlantDataSource{
