@@ -1,13 +1,28 @@
 package com.plantia.ui.dashboard
 
-import androidx.lifecycle.LiveData
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.firestore.CollectionReference
+import com.plantia.Plant
+import com.plantia.PlantRepository
 
-class DashboardViewModel : ViewModel() {
+data class DashboardUiState(
+    val plantList: MutableList<Plant> = mutableListOf<Plant>()
+)
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is dashboard Fragment"
+class DashboardViewModel: ViewModel() {
+    val uiState: DashboardUiState = DashboardUiState()
+    private val plantRepository: PlantRepository = PlantRepository()
+
+    fun addPlant(plant: Plant) {
+        uiState.plantList.add(plant)
     }
-    val text: LiveData<String> = _text
+    fun fetchPlants(): CollectionReference {
+        return plantRepository.fetchPlants()
+    }
+
+    fun plants(): MutableList<Plant> {
+        return  uiState.plantList
+    }
 }

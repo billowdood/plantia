@@ -1,37 +1,54 @@
 package com.plantia.ui.dashboard
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.RecyclerView
+import com.plantia.Plant
+import com.plantia.PlantRepository
+import com.plantia.R
 import com.plantia.databinding.FragmentDashboardBinding
 
-class DashboardFragment : Fragment() {
+class DashboardFragment: Fragment() {
 
     private var _binding: FragmentDashboardBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+    private val viewModel: DashboardViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel =
-            ViewModelProvider(this).get(DashboardViewModel::class.java)
-
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textDashboard
-        dashboardViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+       viewModel.fetchPlants()
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    Log.d("PlantIA", "${document.id} => ${document.data}")
+                    val plant = document.toObject(Plant::class.java)
+
+                    viewModel.addPlant(plant)
+                }
+
+                val plantAdapter = PlantItemAdapter(viewModel.plants())
+                val recyclerView: RecyclerView = binding.plantRecyclerView
+
+                recyclerView.adapter = plantAdapter
+            }
+            .addOnFailureListener { exception ->
+                Log.w("PlantIA", "Error getting documents.", exception)
+            }
+
         return root
     }
 
